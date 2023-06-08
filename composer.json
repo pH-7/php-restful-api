@@ -1,0 +1,26 @@
+{
+    "name": "pierrehenry/api-simple-menu",
+    "description": "A simple RESTful API for a Udemy course",
+    "autoload": {
+        "psr-4": {
+            "PH7\\ApiSimpleMenu\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Pierre-Henry Soria",
+            "email": "hi@ph7.me"
+        }
+    ],
+
+    "config": {
+        "platform": {
+            "php": "8.1.0"
+        }
+    },
+    "require": {
+        "php": ">=8.1.0",
+        "firebase/php-jwt": "^6.4",
+        "respect/validation": "^2.2"
+    }
+}

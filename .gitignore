@@ -1,0 +1,7 @@
+# Depedency files
+/vendor
+composer.lock
+
+# IDE config folder
+/.idea
+
