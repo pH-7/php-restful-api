@@ -1,3 +1,5 @@
+.env
+
 # Depedency files
 /vendor
 composer.lock

@@ -3,6 +3,7 @@ namespace PH7\ApiSimpleMenu;
 
 use PH7\ApiSimpleMenu\Validation\Exception\InvalidValidationException;
 use PH7\ApiSimpleMenu\Validation\UserValidation;
+use Ramsey\Uuid\Uuid;
 use Respect\Validation\Validator as v;
 
 class User
@@ -18,13 +19,11 @@ class User
     // public function create(object $data): self // <- can still be valid
     public function create(mixed $data): object
     {
-        // storing the min/max lengths for first/last names
-        $minimumLength = 2;
-        $maximumLength = 60;
-
         // validate data
         $userValidation = new UserValidation($data);
         if ($userValidation->isCreationSchemaValid()) {
+            $data->userId = Uuid::uuid4(); // assigning a UUID to the user
+
             return $data; // return statement exists the function and doesn't go beyond this scope
         }
 

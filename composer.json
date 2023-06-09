@@ -23,6 +23,9 @@
         "firebase/php-jwt": "^6.4",
         "respect/validation": "^2.2",
         "ph-7/php-http-response-header": "^1.0.2",
-        "ph-7/just-http-status-codes": "^1.1"
+        "ph-7/just-http-status-codes": "^1.1",
+        "ramsey/uuid": "^4.7",
+        "gabordemooij/redbean": "^5.7",
+        "vlucas/phpdotenv": "^5.5"
     }
 }
