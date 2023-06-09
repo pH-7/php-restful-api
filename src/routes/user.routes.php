@@ -2,7 +2,7 @@
 namespace PH7\ApiSimpleMenu;
 
 use Exception;
-use PH7\ApiSimpleMenu\Exception\InvalidValidationException;
+use PH7\ApiSimpleMenu\Validation\Exception\InvalidValidationException;
 
 use PH7\JustHttp\StatusCode;
 use PH7\PhpHttpResponseHeader\Http;
@@ -24,7 +24,7 @@ enum UserAction: string
         $postBody = json_decode($postBody);
 
         // Ternary conditional operator operator
-        $userId = !empty($_GET['user_id']) ? (int)$_GET['user_id'] : 0;
+        $userId = $_GET['user_id'] ?? null; // using the null coalescing operator
 
         // TODO Remove the hard-coded values from here
         $user = new User('Pierre', 'pierre@soria.email', '042634759375');
