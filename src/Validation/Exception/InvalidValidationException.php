@@ -1,6 +1,6 @@
 <?php
 
-namespace PH7\ApiSimpleMenu\Exception;
+namespace PH7\ApiSimpleMenu\Validation\Exception;
 
 use RuntimeException;
 
