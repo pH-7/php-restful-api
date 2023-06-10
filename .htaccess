@@ -1,0 +1,19 @@
+# DirectoryIndex index.php
+
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+       # Disable Directory Browsing
+       Options -MultiViews -Indexes
+    </IfModule>
+    Options +FollowSymLinks
+
+    # Indicate to Apache to enable URLs rewrite
+    RewriteEngine On
+
+    # Uncomment below "#RewriteBase /"if installed in a folder, and then, add the folder name after the slash "/"
+    # RewriteBase /
+
+    # This is where the magic happens
+     # Rewrite the requests to index.php with correct GET params
+    RewriteRule ^([^/]+)/?([^/]+)?/?([^/]+)?/?$ index.php?resource=$1&action=$2&id=$3 [QSA,L]
+</IfModule>

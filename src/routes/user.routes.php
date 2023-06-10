@@ -23,7 +23,7 @@ enum UserAction: string
         $postBody = json_decode($postBody);
 
         // Ternary conditional operator operator
-        $userId = $_GET['user_id'] ?? null; // using the null coalescing operator
+        $userId = $_REQUEST['id'] ?? null; // using the null coalescing operator
 
         // TODO Remove the hard-coded values from here
         $user = new User('Pierre', 'pierre@soria.email', '042634759375');
@@ -52,8 +52,7 @@ enum UserAction: string
     }
 }
 
-
-$action = $_GET['action'] ?? null;
+$action = $_REQUEST['action'] ?? null;
 
 // PHP 8.0 match - https://stitcher.io/blog/php-8-match-or-switch
 // Various HTTP codes explained here: https://www.apiscience.com/blog/7-ways-to-validate-that-your-apis-are-working-correctly/
