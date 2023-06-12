@@ -1,14 +1,19 @@
 <?php
-namespace PH7\ApiSimpleMenu;
+namespace PH7\ApiSimpleMenu\Service;
 
+use PH7\ApiSimpleMenu\Dal\UserDal;
 use PH7\ApiSimpleMenu\Validation\Exception\InvalidValidationException;
 use PH7\ApiSimpleMenu\Validation\UserValidation;
+use PH7\JustHttp\StatusCode;
+use PH7\PhpHttpResponseHeader\Http;
 use Ramsey\Uuid\Uuid;
+use RedBeanPHP\RedException\SQL;
 use Respect\Validation\Validator as v;
+use PH7\ApiSimpleMenu\Entity\User as UserEntity;
 
 class User
 {
-    public readonly ?string $userId;
+    public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
 
     public function __construct(
         public readonly string $name,
@@ -22,7 +27,26 @@ class User
         // validate data
         $userValidation = new UserValidation($data);
         if ($userValidation->isCreationSchemaValid()) {
-            $data->userId = Uuid::uuid4(); // assigning a UUID to the user
+            $userUuid = Uuid::uuid4(); // assigning a UUID to the user
+
+            $userEntity = new UserEntity();
+            $userEntity
+                ->setUserUuid($userUuid)
+                ->setFirstName($data->first)
+                ->setLastName($data->last)
+                ->setEmail($data->email)
+                ->setPhone($data->phone)
+                ->setCreationDate(date(self::DATE_TIME_FORMAT));
+
+            try {
+                UserDal::create($userEntity);
+            } catch (SQL $exception) {
+                // Set an internal error when we cannot add an entry to the database
+                Http::setHeadersByCode(StatusCode::INTERNAL_SERVER_ERROR);
+
+                // Set to empty result, because an issue happened. The client has to handle this properly
+                $data = [];
+            }
 
             return $data; // return statement exists the function and doesn't go beyond this scope
         }
@@ -38,7 +62,7 @@ class User
     public function retrieve(string $userId): self
     {
         if (v::uuid()->validate($userId)) {
-            $this->userId = $userId;
+            // TODO To be implemented
 
             return $this;
         }
@@ -60,7 +84,7 @@ class User
     public function remove(string $userId): bool
     {
         if (v::uuid()->validate($userId)) {
-            $this->userId = $userId;
+            // TODO To be implemented
         } else {
             throw new InvalidValidationException("Invalid user UUID");
         }

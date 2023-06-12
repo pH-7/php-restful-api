@@ -1,12 +1,13 @@
 <?php
 namespace PH7\ApiSimpleMenu;
 
+use PH7\ApiSimpleMenu\Service\User;
 use PH7\ApiSimpleMenu\Validation\Exception\InvalidValidationException;
 
 use PH7\JustHttp\StatusCode;
 use PH7\PhpHttpResponseHeader\Http;
 
-require_once dirname(__DIR__) . '/endpoints/User.php';
+require_once dirname(__DIR__) . '/Service/User.php';
 
 // PHP 8.1 enums
 enum UserAction: string
@@ -31,18 +32,18 @@ enum UserAction: string
         try {
             $response = match ($this) {
                 self::CREATE => $user->create($postBody),
-                self::RETRIEVE_ALL => $user->retrieveAll(),
-                self::RETRIEVE => $user->retrieve($userId),
-                self::REMOVE => $user->remove($userId),
-                self::UPDATE => $user->update($postBody),
-            };
-        } catch (InvalidValidationException $e) {
-            // Send 400 http status code
-            Http::setHeadersByCode(StatusCode::BAD_REQUEST);
+                    self::RETRIEVE_ALL => $user->retrieveAll(),
+                    self::RETRIEVE => $user->retrieve($userId),
+                    self::REMOVE => $user->remove($userId),
+                    self::UPDATE => $user->update($postBody),
+                };
+            } catch (InvalidValidationException $e) {
+                // Send 400 http status code
+                Http::setHeadersByCode(StatusCode::BAD_REQUEST);
 
-            $response = [
-                'errors' => [
-                    'message' => $e->getMessage(),
+                $response = [
+                    'errors' => [
+                        'message' => $e->getMessage(),
                     'code' => $e->getCode()
                 ]
             ];

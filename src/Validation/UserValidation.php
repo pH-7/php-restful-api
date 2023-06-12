@@ -15,7 +15,8 @@ class UserValidation
     public function isCreationSchemaValid(): bool
     {
         // validation schema
-        $schemaValidation = v::attribute('first', v::stringType()->length(self::MINIMUM_NAME_LENGTH, self::MAXIMUM_NAME_LENGTH))
+        $schemaValidation =
+            v::attribute('first', v::stringType()->length(self::MINIMUM_NAME_LENGTH, self::MAXIMUM_NAME_LENGTH))
             ->attribute('last', v::stringType()->length(self::MINIMUM_NAME_LENGTH, self::MAXIMUM_NAME_LENGTH))
             ->attribute('email', v::email(), mandatory: false)
             ->attribute('phone', v::phone(), mandatory: false);

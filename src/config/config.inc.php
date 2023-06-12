@@ -3,6 +3,20 @@ namespace PH7\ApiSimpleMenu;
 
 use Dotenv\Dotenv;
 
+enum Environment : string
+{
+    case DEVELOPMENT = 'development';
+    case PRODUCTION = 'production';
+
+    public function environmentName(): string
+    {
+         return match($this) {
+            self::DEVELOPMENT => 'development',
+            self::PRODUCTION => 'production'
+        };
+    }
+}
+
 $path = dirname(__DIR__, 2);
 $dotenv = Dotenv::createImmutable($path);
 $dotenv->load();
