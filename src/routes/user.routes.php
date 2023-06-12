@@ -7,9 +7,6 @@ use PH7\ApiSimpleMenu\Validation\Exception\InvalidValidationException;
 use PH7\JustHttp\StatusCode;
 use PH7\PhpHttpResponseHeader\Http;
 
-require_once dirname(__DIR__) . '/Service/User.php';
-
-// PHP 8.1 enums
 enum UserAction: string
 {
     case CREATE = 'create';
@@ -26,9 +23,7 @@ enum UserAction: string
         // Ternary conditional operator operator
         $userId = $_REQUEST['id'] ?? null; // using the null coalescing operator
 
-        // TODO Remove the hard-coded values from here
-        $user = new User('Pierre', 'pierre@soria.email', '042634759375');
-
+        $user = new User();
         try {
             $response = match ($this) {
                 self::CREATE => $user->create($postBody),

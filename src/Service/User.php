@@ -15,13 +15,6 @@ class User
 {
     public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
 
-    public function __construct(
-        public readonly string $name,
-        public readonly string $email,
-        public readonly string $phone,
-    ) {}
-
-    // public function create(object $data): self // <- can still be valid
     public function create(mixed $data): object
     {
         // validate data
