@@ -29,6 +29,35 @@ final class UserDal
         return $id;
     }
 
+    public static function update(string $userUuid, UserEntity $userEntity): int|string
+    {
+        $userBean = R::findOne(self::TABLE_NAME, 'user_uuid = :userUuid', ['userUuid' => $userUuid]);
+
+        // If the user exists, update it
+        if ($userBean) {
+            $firstName = $userEntity->getFirstName();
+            $lastName = $userEntity->getLastName();
+            $phone = $userEntity->getPhone();
+
+            if ($firstName) {
+                $userBean->firstName = $firstName;
+            }
+
+            if ($lastName) {
+                $userBean->lastName = $lastName;
+            }
+
+            if ($phone) {
+                $userBean->phone = $phone;
+            }
+
+            // save the user
+            return R::store($userBean);
+        }
+
+        return 0;
+    }
+
     public static function get(string $userUuid): ?array
     {
         $bindings = ['userUuid' => $userUuid];

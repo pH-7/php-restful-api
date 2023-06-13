@@ -5,13 +5,13 @@ class User
 {
     private string $userUuid;
 
-    private string $firstName;
+    private ?string $firstName = null;
 
-    private string $lastName;
+    private ?string $lastName = null;
 
-    private string $email;
+    private ?string $email = null;
 
-    private string $phone;
+    private ?string $phone = null;
 
     private string $password;
 
@@ -36,7 +36,7 @@ class User
         return $this;
     }
 
-    public function getFirstName(): string
+    public function getFirstName(): ?string
     {
         return $this->firstName;
     }
@@ -48,7 +48,7 @@ class User
         return $this;
     }
 
-    public function getLastName(): string
+    public function getLastName(): ?string
     {
         return $this->lastName;
     }
@@ -60,7 +60,7 @@ class User
         return $this;
     }
 
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -72,7 +72,7 @@ class User
         return $this;
     }
 
-    public function getPhone(): string
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
