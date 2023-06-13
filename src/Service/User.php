@@ -17,7 +17,6 @@ class User
 
     public function create(mixed $data): object
     {
-        // validate data
         $userValidation = new UserValidation($data);
         if ($userValidation->isCreationSchemaValid()) {
             $userUuid = Uuid::uuid4(); // assigning a UUID to the user
@@ -49,15 +48,26 @@ class User
 
     public function retrieveAll(): array
     {
-        return [];
+        $users = UserDal::getAll();
+
+        return array_map(function (object $user): object {
+            // Remove unnecessary "id" field
+            unset($user['id']);
+            return $user;
+        }, $users);
     }
 
-    public function retrieve(string $userId): self
+    public function retrieve(string $userUuid): array
     {
-        if (v::uuid()->validate($userId)) {
-            // TODO To be implemented
+        if (v::uuid()->validate($userUuid)) {
+            if ($user = UserDal::get($userUuid)) {
+                // Removing fields we don't want to expose
+                unset($user['id']);
 
-            return $this;
+                return $user;
+            }
+
+            return [];
         }
 
         throw new InvalidValidationException("Invalid user UUID");
@@ -65,7 +75,6 @@ class User
 
     public function update(mixed $postBody): object
     {
-        // validation schema
         $userValidation = new UserValidation($postBody);
         if ($userValidation->isUpdateSchemaValid()) {
             return $postBody;
@@ -74,16 +83,13 @@ class User
         throw new InvalidValidationException("Invalid user payload");
     }
 
-    public function remove(string $userId): bool
+    public function remove(object $data): bool
     {
-        if (v::uuid()->validate($userId)) {
-            // TODO To be implemented
-        } else {
-            throw new InvalidValidationException("Invalid user UUID");
+        $userValidation = new UserValidation($data);
+        if ($userValidation->isRemoveSchemaValid()) {
+            return UserDal::remove($data->userUuid);
         }
 
-
-        // TODO Lookup the the DB user row with this userId
-        return true; // default value
+        throw new InvalidValidationException("Invalid user UUID");
     }
 }

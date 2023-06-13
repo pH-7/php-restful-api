@@ -27,18 +27,18 @@ enum UserAction: string
         try {
             $response = match ($this) {
                 self::CREATE => $user->create($postBody),
-                    self::RETRIEVE_ALL => $user->retrieveAll(),
-                    self::RETRIEVE => $user->retrieve($userId),
-                    self::REMOVE => $user->remove($userId),
-                    self::UPDATE => $user->update($postBody),
-                };
-            } catch (InvalidValidationException $e) {
-                // Send 400 http status code
-                Http::setHeadersByCode(StatusCode::BAD_REQUEST);
+                self::RETRIEVE_ALL => $user->retrieveAll(),
+                self::RETRIEVE => $user->retrieve($userId),
+                self::REMOVE => $user->remove($postBody),
+                self::UPDATE => $user->update($postBody),
+            };
+        } catch (InvalidValidationException $e) {
+            // Send 400 http status code
+            Http::setHeadersByCode(StatusCode::BAD_REQUEST);
 
-                $response = [
-                    'errors' => [
-                        'message' => $e->getMessage(),
+            $response = [
+                'errors' => [
+                    'message' => $e->getMessage(),
                     'code' => $e->getCode()
                 ]
             ];
@@ -55,6 +55,7 @@ $action = $_REQUEST['action'] ?? null;
 $userAction = match ($action) {
     'create' => UserAction::CREATE, // send 201
     'retrieve' => UserAction::RETRIEVE, // send 200
+    'retrieveall' => UserAction::RETRIEVE_ALL,
     'remove' => UserAction::REMOVE, // send 204 status code
     'update' => UserAction::UPDATE, //
     default => UserAction::RETRIEVE_ALL, // send 200

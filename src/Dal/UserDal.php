@@ -28,4 +28,28 @@ final class UserDal
 
         return $id;
     }
+
+    public static function get(string $userUuid): ?array
+    {
+        $bindings = ['userUuid' => $userUuid];
+        $userBean = R::findOne(self::TABLE_NAME, 'user_uuid = :userUuid ', $bindings);
+
+       return $userBean?->export();
+    }
+
+    public static function getAll(): array
+    {
+        return R::findAll(self::TABLE_NAME);
+    }
+
+    public static function remove(string $userUuid): bool
+    {
+        $userBean = R::findOne(self::TABLE_NAME, 'user_uuid = :userUuid', ['userUuid' => $userUuid]);
+
+        if ($userBean) {
+            return (bool)R::trash($userBean);
+        }
+
+        return false;
+    }
 }
