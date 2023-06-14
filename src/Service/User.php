@@ -7,7 +7,6 @@ use PH7\ApiSimpleMenu\Validation\UserValidation;
 use PH7\JustHttp\StatusCode;
 use PH7\PhpHttpResponseHeader\Http;
 use Ramsey\Uuid\Uuid;
-use RedBeanPHP\RedException\SQL;
 use Respect\Validation\Validator as v;
 use PH7\ApiSimpleMenu\Entity\User as UserEntity;
 
@@ -30,9 +29,8 @@ class User
                 ->setPhone($data->phone)
                 ->setCreationDate(date(self::DATE_TIME_FORMAT));
 
-            try {
-                UserDal::create($userEntity);
-            } catch (SQL $exception) {
+
+            if (UserDal::create($userEntity) === false) {
                 // Set an internal error when we cannot add an entry to the database
                 Http::setHeadersByCode(StatusCode::INTERNAL_SERVER_ERROR);
 
@@ -65,13 +63,12 @@ class User
                 $userEntity->setPhone($postBody->phone);
             }
 
-            $result = UserDal::update($userUuid, $userEntity);
-            if ($result) {
-                return $postBody;
+            if (UserDal::update($userUuid, $userEntity) === false) {
+                // If invalid or got an error, give back an empty response
+                return [];
             }
 
-            // if invalid, give back an empty response
-            return [];
+            return $postBody;
         }
 
         throw new InvalidValidationException("Invalid user payload");
