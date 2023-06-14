@@ -26,11 +26,11 @@ enum UserAction: string
         $user = new User();
         try {
             $response = match ($this) {
-                self::CREATE => $user->create($postBody),
-                self::RETRIEVE_ALL => $user->retrieveAll(),
-                self::RETRIEVE => $user->retrieve($userId),
-                self::REMOVE => $user->remove($postBody),
-                self::UPDATE => $user->update($postBody),
+                self::CREATE => $user->create($postBody), // TODO Add send 201
+                self::RETRIEVE_ALL => $user->retrieveAll(), // TODO send 200
+                self::RETRIEVE => $user->retrieve($userId), // TODO send 200
+                self::REMOVE => $user->remove($postBody), // TODO send 204 status code
+                self::UPDATE => $user->update($postBody), // TODO send 200
             };
         } catch (InvalidValidationException $e) {
             // Send 400 http status code
@@ -50,17 +50,9 @@ enum UserAction: string
 
 $action = $_REQUEST['action'] ?? null;
 
-// PHP 8.0 match - https://stitcher.io/blog/php-8-match-or-switch
-// Various HTTP codes explained here: https://www.apiscience.com/blog/7-ways-to-validate-that-your-apis-are-working-correctly/
-$userAction = match ($action) {
-    'create' => UserAction::CREATE, // send 201
-    'retrieve' => UserAction::RETRIEVE, // send 200
-    'retrieveall' => UserAction::RETRIEVE_ALL,
-    'remove' => UserAction::REMOVE, // send 204 status code
-    'update' => UserAction::UPDATE, //
-    default => UserAction::RETRIEVE_ALL, // send 200
-};
-
-
-// response, as described in https://jsonapi.org/format/#profile-rules
-echo $userAction->getResponse();
+$userAction = UserAction::tryFrom($action);
+if ($userAction) {
+    echo $userAction->getResponse();
+} else {
+    require_once 'not-found.routes.php';
+}
