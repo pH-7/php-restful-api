@@ -10,7 +10,7 @@ use PH7\PhpHttpResponseHeader\Http;
 enum UserAction: string
 {
     case CREATE = 'create';
-    case RETRIEVE_ALL = 'retrieveAll';
+    case RETRIEVE_ALL = 'retrieveall';
     case RETRIEVE = 'retrieve';
     case REMOVE = 'remove';
     case UPDATE = 'update';
@@ -26,11 +26,11 @@ enum UserAction: string
         $user = new User();
         try {
             $response = match ($this) {
-                self::CREATE => $user->create($postBody), // TODO Add send 201
-                self::RETRIEVE_ALL => $user->retrieveAll(), // TODO send 200
-                self::RETRIEVE => $user->retrieve($userId), // TODO send 200
-                self::REMOVE => $user->remove($postBody), // TODO send 204 status code
-                self::UPDATE => $user->update($postBody), // TODO send 200
+                self::CREATE => $user->create($postBody),
+                self::RETRIEVE_ALL => $user->retrieveAll(),
+                self::RETRIEVE => $user->retrieve($userId),
+                self::REMOVE => $user->remove($postBody),
+                self::UPDATE => $user->update($postBody),
             };
         } catch (InvalidValidationException $e) {
             // Send 400 http status code

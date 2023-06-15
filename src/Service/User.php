@@ -31,12 +31,15 @@ class User
 
 
             if (UserDal::create($userEntity) === false) {
-                // Set an internal error when we cannot add an entry to the database
+                // Set an internal error 500 when we cannot add an entry to the database
                 Http::setHeadersByCode(StatusCode::INTERNAL_SERVER_ERROR);
 
                 // Set to empty result, because an issue happened. The client has to handle this properly
                 $data = [];
             }
+
+            // Send a 201 when the user has been successfully added to DB
+            Http::setHeadersByCode(StatusCode::CREATED);
 
             return $data; // return statement exists the function and doesn't go beyond this scope
         }
@@ -64,6 +67,9 @@ class User
             }
 
             if (UserDal::update($userUuid, $userEntity) === false) {
+                // Set an internal error 500 when we cannot add an entry to the database
+                Http::setHeadersByCode(StatusCode::INTERNAL_SERVER_ERROR);
+
                 // If invalid or got an error, give back an empty response
                 return [];
             }
@@ -101,10 +107,16 @@ class User
         throw new InvalidValidationException("Invalid user UUID");
     }
 
-    public function remove(object $data): bool
+    /**
+     * @internal Set `mixed` type, because if we get an incorrect payload with syntax errors, `json_decode` gives NULL,
+     * and `object` wouldn't be a valid datatype here.
+     */
+    public function remove(mixed $data): bool
     {
         $userValidation = new UserValidation($data);
         if ($userValidation->isRemoveSchemaValid()) {
+            // Send a 204 if the user got removed
+            //Http::setHeadersByCode(StatusCode::NO_CONTENT);
             return UserDal::remove($data->userUuid);
         }
 
