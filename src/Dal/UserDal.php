@@ -21,14 +21,14 @@ final class UserDal
         $userBean->created_date = $userEntity->getCreationDate();
 
         try {
-            $id = R::store($userBean);
+            $redBeanIncrementId = R::store($userBean);
         } catch (SQL $e) {
             return false;
         } finally {
             R::close();
         }
 
-        return $id;
+        return $redBeanIncrementId;
     }
 
     public static function update(string $userUuid, UserEntity $userEntity): int|string|false
