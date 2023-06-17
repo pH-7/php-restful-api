@@ -8,12 +8,6 @@ use Respect\Validation\Validator as v;
 
 class FoodItem
 {
-    public function __construct()
-    {
-        // Generate an item for us
-        FoodItemDal::create();
-    }
-
     public function retrieve(string $itemUuid): array
     {
         if (v::uuid()->validate($itemUuid)) {
@@ -33,6 +27,15 @@ class FoodItem
     public function retrieveAll(): array
     {
         $items = FoodItemDal::getAll();
+
+        if (count($items) === 0) {
+            // if no items have been added yet, create the first one
+            FoodItemDal::createDefaultItem();
+
+            // then, get again all items
+            // to retrieve the new one that just got added
+            $items = FoodItemDal::getAll();
+        }
 
         return array_map(function (object $item): object {
             // Remove unnecessary "id" field

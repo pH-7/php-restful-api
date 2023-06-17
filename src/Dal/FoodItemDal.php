@@ -22,7 +22,7 @@ class FoodItemDal
         return R::findAll(self::TABLE_NAME);
     }
 
-    public static function create(): void
+    public static function createDefaultItem(): int|string
     {
         $itemBan = R::dispense(self::TABLE_NAME);
 
@@ -31,6 +31,7 @@ class FoodItemDal
         $itemBan->price = 19.55;
         $itemBan->available = true;
 
-        R::store($itemBan);
+        // return the increment entry ID
+        return R::store($itemBan);
     }
 }
