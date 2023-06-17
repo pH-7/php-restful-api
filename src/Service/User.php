@@ -2,7 +2,6 @@
 namespace PH7\ApiSimpleMenu\Service;
 
 use PH7\ApiSimpleMenu\Dal\UserDal;
-use PH7\ApiSimpleMenu\Route\Exception\NotFoundException;
 use PH7\ApiSimpleMenu\Validation\Exception\InvalidValidationException;
 use PH7\ApiSimpleMenu\Validation\UserValidation;
 use PH7\JustHttp\StatusCode;
@@ -10,7 +9,6 @@ use PH7\PhpHttpResponseHeader\Http as HttpResponse;
 use Ramsey\Uuid\Uuid;
 use Respect\Validation\Validator as v;
 use PH7\ApiSimpleMenu\Entity\User as UserEntity;
-use PH7\ApiSimpleMenu\Route\Http;
 
 class User
 {
@@ -18,10 +16,6 @@ class User
 
     public function create(mixed $data): array|object
     {
-        if (!Http::doesHttpMethodMatch(Http::POST_METHOD)) {
-            throw new NotFoundException('HTTP method is incorrect. Request not found');
-        }
-
         $userValidation = new UserValidation($data);
         if ($userValidation->isCreationSchemaValid()) {
             $userUuid = Uuid::uuid4()->toString(); // assigning a UUID to the user
@@ -55,10 +49,6 @@ class User
 
     public function update(mixed $postBody): array|object
     {
-        if (!Http::doesHttpMethodMatch(Http::POST_METHOD)) {
-            throw new NotFoundException('HTTP method is incorrect. Request not found');
-        }
-
         $userValidation = new UserValidation($postBody);
         if ($userValidation->isUpdateSchemaValid()) {
             $userUuid = $postBody->userUuid;
@@ -123,10 +113,6 @@ class User
      */
     public function remove(mixed $data): bool
     {
-        if (!Http::doesHttpMethodMatch(Http::DELETE_METHOD)) {
-            throw new NotFoundException('HTTP method is incorrect. Request not found');
-        }
-
         $userValidation = new UserValidation($data);
         if ($userValidation->isRemoveSchemaValid()) {
             // Send a 204 if the user got removed
