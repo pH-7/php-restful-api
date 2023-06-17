@@ -2,13 +2,15 @@
 namespace PH7\ApiSimpleMenu\Service;
 
 use PH7\ApiSimpleMenu\Dal\UserDal;
+use PH7\ApiSimpleMenu\Route\Exception\NotFoundException;
 use PH7\ApiSimpleMenu\Validation\Exception\InvalidValidationException;
 use PH7\ApiSimpleMenu\Validation\UserValidation;
 use PH7\JustHttp\StatusCode;
-use PH7\PhpHttpResponseHeader\Http;
+use PH7\PhpHttpResponseHeader\Http as HttpResponse;
 use Ramsey\Uuid\Uuid;
 use Respect\Validation\Validator as v;
 use PH7\ApiSimpleMenu\Entity\User as UserEntity;
+use PH7\ApiSimpleMenu\Route\Http;
 
 class User
 {
@@ -16,6 +18,10 @@ class User
 
     public function create(mixed $data): array|object
     {
+        if (!Http::doesHttpMethodMatch(Http::POST_METHOD)) {
+            throw new NotFoundException('HTTP method is incorrect. Request not found');
+        }
+
         $userValidation = new UserValidation($data);
         if ($userValidation->isCreationSchemaValid()) {
             $userUuid = Uuid::uuid4()->toString(); // assigning a UUID to the user
@@ -32,14 +38,14 @@ class User
 
             if (UserDal::create($userEntity) === false) {
                 // Set an internal error 500 when we cannot add an entry to the database
-                Http::setHeadersByCode(StatusCode::INTERNAL_SERVER_ERROR);
+                HttpResponse::setHeadersByCode(StatusCode::INTERNAL_SERVER_ERROR);
 
                 // Set to empty result, because an issue happened. The client has to handle this properly
                 $data = [];
             }
 
             // Send a 201 when the user has been successfully added to DB
-            Http::setHeadersByCode(StatusCode::CREATED);
+            HttpResponse::setHeadersByCode(StatusCode::CREATED);
 
             return $data; // return statement exists the function and doesn't go beyond this scope
         }
@@ -49,6 +55,10 @@ class User
 
     public function update(mixed $postBody): array|object
     {
+        if (!Http::doesHttpMethodMatch(Http::POST_METHOD)) {
+            throw new NotFoundException('HTTP method is incorrect. Request not found');
+        }
+
         $userValidation = new UserValidation($postBody);
         if ($userValidation->isUpdateSchemaValid()) {
             $userUuid = $postBody->userUuid;
@@ -68,7 +78,7 @@ class User
 
             if (UserDal::update($userUuid, $userEntity) === false) {
                 // Set an internal error 500 when we cannot add an entry to the database
-                Http::setHeadersByCode(StatusCode::INTERNAL_SERVER_ERROR);
+                HttpResponse::setHeadersByCode(StatusCode::INTERNAL_SERVER_ERROR);
 
                 // If invalid or got an error, give back an empty response
                 return [];
@@ -113,10 +123,14 @@ class User
      */
     public function remove(mixed $data): bool
     {
+        if (!Http::doesHttpMethodMatch(Http::DELETE_METHOD)) {
+            throw new NotFoundException('HTTP method is incorrect. Request not found');
+        }
+
         $userValidation = new UserValidation($data);
         if ($userValidation->isRemoveSchemaValid()) {
             // Send a 204 if the user got removed
-            //Http::setHeadersByCode(StatusCode::NO_CONTENT);
+            //HttpResponse::setHeadersByCode(StatusCode::NO_CONTENT);
             return UserDal::remove($data->userUuid);
         }
 

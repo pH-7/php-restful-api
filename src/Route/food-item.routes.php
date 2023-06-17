@@ -1,5 +1,5 @@
 <?php
-namespace PH7\ApiSimpleMenu;
+namespace PH7\ApiSimpleMenu\Route;
 
 use PH7\ApiSimpleMenu\Service\FoodItem;
 use PH7\ApiSimpleMenu\Validation\Exception\InvalidValidationException;
