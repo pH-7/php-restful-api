@@ -21,7 +21,7 @@ enum UserAction: string
         $postBody = json_decode($postBody);
 
         // Ternary conditional operator operator
-        $userId = $_REQUEST['id'] ?? null; // using the null coalescing operator
+        $userId = $_REQUEST['id'] ?? ''; // using the null coalescing operator
 
         $user = new User();
         try {

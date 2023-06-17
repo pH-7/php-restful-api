@@ -1,4 +1,5 @@
 <?php
+
 namespace PH7\ApiSimpleMenu\Entity;
 
 class User

@@ -18,7 +18,7 @@ class User
     {
         $userValidation = new UserValidation($data);
         if ($userValidation->isCreationSchemaValid()) {
-            $userUuid = Uuid::uuid4(); // assigning a UUID to the user
+            $userUuid = Uuid::uuid4()->toString(); // assigning a UUID to the user
 
             $userEntity = new UserEntity();
             $userEntity
