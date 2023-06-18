@@ -28,7 +28,7 @@ class User
                 ->setLastName($data->last)
                 ->setEmail($data->email)
                 ->setPhone($data->phone)
-                ->setPassword(password_hash($data->password, PASSWORD_ARGON2I))
+                ->setPassword(hashPassword($data->password))
                 ->setCreationDate(date(self::DATE_TIME_FORMAT));
 
             $email = $userEntity->getEmail();
