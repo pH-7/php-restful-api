@@ -18,6 +18,7 @@ final class UserDal
         $userBean->last_name = $userEntity->getLastName();
         $userBean->email = $userEntity->getEmail();
         $userBean->phone = $userEntity->getPhone();
+        $userBean->password = $userEntity->getPassword();
         $userBean->created_date = $userEntity->getCreationDate();
 
         try {
@@ -88,5 +89,11 @@ final class UserDal
         }
 
         return false;
+    }
+
+    public static function doesEmailExist(string $email): bool
+    {
+        // If R::findOne doesn't find any rows, it returns NULL (meaning, the email address doesn't exist)
+        return R::findOne(self::TABLE_NAME, 'email = :email', ['email' => $email]) !== null;
     }
 }

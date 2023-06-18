@@ -2,6 +2,7 @@
 namespace PH7\ApiSimpleMenu\Service;
 
 use PH7\ApiSimpleMenu\Dal\UserDal;
+use PH7\ApiSimpleMenu\Service\Exception\EmailExistsException;
 use PH7\ApiSimpleMenu\Validation\Exception\InvalidValidationException;
 use PH7\ApiSimpleMenu\Validation\UserValidation;
 use PH7\JustHttp\StatusCode;
@@ -27,8 +28,15 @@ class User
                 ->setLastName($data->last)
                 ->setEmail($data->email)
                 ->setPhone($data->phone)
+                ->setPassword(password_hash($data->password, PASSWORD_ARGON2I))
                 ->setCreationDate(date(self::DATE_TIME_FORMAT));
 
+            $email = $userEntity->getEmail();
+            if (UserDal::doesEmailExist($email)) {
+                throw new EmailExistsException(
+                    sprintf('Email address %s already exists', $email)
+                );
+            }
 
             if (UserDal::create($userEntity) === false) {
                 // Set an internal error 500 when we cannot add an entry to the database

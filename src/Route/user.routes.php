@@ -2,6 +2,7 @@
 namespace PH7\ApiSimpleMenu\Route;
 
 use PH7\ApiSimpleMenu\Route\Exception\NotFoundException;
+use PH7\ApiSimpleMenu\Service\Exception\EmailExistsException;
 use PH7\ApiSimpleMenu\Service\User;
 use PH7\ApiSimpleMenu\Validation\Exception\InvalidValidationException;
 
@@ -57,6 +58,14 @@ enum UserAction: string
                 'errors' => [
                     'message' => $e->getMessage(),
                     'code' => $e->getCode()
+                ]
+            ];
+        } catch (EmailExistsException $e) {
+            HttpResponse::setHeadersByCode(StatusCode::BAD_REQUEST);
+
+            $response = [
+                'errors' => [
+                    'message' => $e->getMessage()
                 ]
             ];
         }
