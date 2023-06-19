@@ -17,7 +17,7 @@ class User
 {
     public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
 
-    public function login(mixed $data)
+    public function login(mixed $data): array
     {
         $userValidation = new UserValidation($data);
         if ($userValidation->isLoginSchemaValid()) {
@@ -32,7 +32,7 @@ class User
                         [
                             'iss' => $_ENV['APP_URL'],
                             'iat' => $currentTime,
-                            'exp' => $currentTime + (60 * 60), // valid for an hour
+                            'exp' => $currentTime + $_ENV['JWT_TOKEN_EXPIRATION'],
                             'data' => [
                                 'email' => $data->email,
                                 'name' => $userName
