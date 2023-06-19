@@ -67,12 +67,21 @@ final class UserDal
         return false;
     }
 
-    public static function get(string $userUuid): ?array
+    public static function getById(string $userUuid): ?array
     {
         $bindings = ['userUuid' => $userUuid];
         $userBean = R::findOne(self::TABLE_NAME, 'user_uuid = :userUuid ', $bindings);
 
        return $userBean?->export();
+    }
+
+    public static function getByEmail(string $email): ?array
+    {
+        $bindings = ['email' => $email];
+
+        $userBean = R::findOne(self::TABLE_NAME, 'email = :email', $bindings);
+
+        return $userBean?->export();
     }
 
     public static function getAll(): array

@@ -11,6 +11,7 @@ use PH7\PhpHttpResponseHeader\Http as HttpResponse;
 
 enum UserAction: string
 {
+    case LOGIN = 'login';
     case CREATE = 'create';
     case RETRIEVE_ALL = 'retrieveall';
     case RETRIEVE = 'retrieve';
@@ -32,6 +33,7 @@ enum UserAction: string
         try {
             // check first if HTTP method for the requested endpoint is valid
             $expectHttpMethod = match ($this) {
+                self::LOGIN => Http::POST_METHOD,
                 self::CREATE => Http::POST_METHOD,
                 self::UPDATE => Http::POST_METHOD,
                 self::RETRIEVE_ALL => Http::GET_METHOD,
@@ -44,6 +46,7 @@ enum UserAction: string
             }
 
             $response = match ($this) {
+                self::LOGIN => $user->login($postBody),
                 self::CREATE => $user->create($postBody),
                 self::UPDATE => $user->update($postBody),
                 self::RETRIEVE_ALL => $user->retrieveAll(),
