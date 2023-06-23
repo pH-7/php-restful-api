@@ -67,26 +67,43 @@ final class UserDal
         return false;
     }
 
-    public static function getById(string $userUuid): ?array
+    public static function getById(string $userUuid): UserEntity
     {
         $bindings = ['userUuid' => $userUuid];
         $userBean = R::findOne(self::TABLE_NAME, 'user_uuid = :userUuid ', $bindings);
 
-       return $userBean?->export();
+        return (new UserEntity())->unserialize($userBean?->export());
     }
 
-    public static function getByEmail(string $email): ?array
+    public static function getByEmail(string $email): UserEntity
     {
         $bindings = ['email' => $email];
 
         $userBean = R::findOne(self::TABLE_NAME, 'email = :email', $bindings);
 
-        return $userBean?->export();
+        return (new UserEntity())->unserialize($userBean?->export());
     }
 
-    public static function getAll(): array
+    public static function getAll(): ?array
     {
-        return R::findAll(self::TABLE_NAME);
+        $usersBean =  R::findAll(self::TABLE_NAME);
+        $areAnyUsers = $usersBean && count($usersBean);
+
+        if (!$areAnyUsers) {
+            return []; // guard clause approach
+        }
+
+        return array_map(function (object $userBean): array {
+            $userEntity = (new UserEntity())->unserialize($userBean?->export());
+            // Retrieve the User entity fields we want to expose to the client
+            return [
+                'userUuid' => $userEntity->getUserUuid(),
+                'first' => $userEntity->getFirstName(),
+                'last' => $userEntity->getLastName(),
+                'email' => $userEntity->getEmail(),
+                'phone' => $userEntity->getPhone(),
+                'creationDate' => $userEntity->getCreationDate()
+            ];}, $usersBean);
     }
 
     public static function remove(string $userUuid): bool

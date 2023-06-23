@@ -24,8 +24,8 @@ class User
             if (UserDal::doesEmailExist($data->email)) {
                 $user = UserDal::getByEmail($data->email);
 
-                if ($user && password_verify($data->password, $user['password'])) {
-                    $userName = "{$user['first_name']} {$user['last_name']}";
+                if ($user->getEmail() && password_verify($data->password, $user->getPassword())) {
+                    $userName = "{$user->getFirstName()} {$user->getLastName()}";
 
                     $currentTime = time();
                     $jwtToken = JWT::encode(
@@ -128,23 +128,24 @@ class User
 
     public function retrieveAll(): array
     {
-        $users = UserDal::getAll();
-
-        return array_map(function (object $user): object {
-            // Remove unnecessary "id" field
-            unset($user['id']);
-            return $user;
-        }, $users);
+        return UserDal::getAll();
     }
 
     public function retrieve(string $userUuid): array
     {
         if (v::uuid()->validate($userUuid)) {
             if ($user = UserDal::getById($userUuid)) {
-                // Removing fields we don't want to expose
-                unset($user['id']);
-
-                return $user;
+                if ($user->getUserUuid()) {
+                    // Retrieve the needed properties we want to expose for the user
+                    return [
+                        'userUuid' => $user->getUserUuid(),
+                        'first' => $user->getFirstName(),
+                        'last' => $user->getLastName(),
+                        'email' => $user->getEmail(),
+                        'phone' => $user->getPhone(),
+                        'creationDate' => $user->getCreationDate()
+                    ];
+                }
             }
 
             return [];

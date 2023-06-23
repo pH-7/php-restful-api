@@ -4,7 +4,8 @@ namespace PH7\ApiSimpleMenu\Entity;
 
 class User
 {
-    private string $userUuid;
+    private int $sequentialId;
+    private ?string $userUuid = null;
 
     private ?string $firstName = null;
 
@@ -16,7 +17,19 @@ class User
 
     private string $password;
 
-    private string $creationDate;
+    private ?string $creationDate = null;
+
+    public function setSequentialId(int $sequentialId): self
+    {
+        $this->sequentialId = $sequentialId;
+
+        return $this;
+    }
+
+    public function getSequentialId(): int
+    {
+        return $this->sequentialId;
+    }
 
     public function setUserUuid(string $userUuid) :self
     {
@@ -25,7 +38,7 @@ class User
         return $this;
     }
 
-    public function getUserUuid(): string
+    public function getUserUuid(): ?string
     {
         return $this->userUuid;
     }
@@ -97,8 +110,52 @@ class User
         return $this;
     }
 
-    public function getCreationDate(): string
+    public function getCreationDate(): ?string
     {
         return $this->creationDate;
     }
+
+    public function unserialize(?array $data): self
+    {
+        if (!empty($data['id'])) {
+            $this->setSequentialId($data['id']);
+        }
+
+        if (!empty($data['user_uuid'])) {
+            $this->setUserUuid($data['user_uuid']);
+        }
+
+        if (!empty($data['first_name'])) {
+            $this->setFirstName($data['first_name']);
+        }
+
+        if (!empty($data['last_name'])) {
+            $this->setLastName($data['last_name']);
+        }
+
+        if (!empty($data['email'])) {
+            $this->setEmail($data['email']);
+        }
+
+        if (!empty($data['phone'])) {
+            $this->setPhone($data['phone']);
+        }
+
+        if (!empty($data['password'])) {
+            $this->setPassword($data['password']);
+        }
+
+        if (!empty($data['created_date'])) {
+            $this->setCreationDate($data['created_date']);
+        }
+
+        return $this;
+    }
+
+//    public function serialize(): array
+//    {
+//        // optional. we could also only return the properties we want to make it safe
+//        // (not all properties should indeed be returned)
+//        return get_object_vars($this);
+//    }
 }
