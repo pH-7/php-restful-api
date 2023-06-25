@@ -93,17 +93,19 @@ final class UserDal
             return []; // guard clause approach
         }
 
-        return array_map(function (object $userBean): array {
-            $userEntity = (new UserEntity())->unserialize($userBean?->export());
-            // Retrieve the User entity fields we want to expose to the client
-            return [
-                'userUuid' => $userEntity->getUserUuid(),
-                'first' => $userEntity->getFirstName(),
-                'last' => $userEntity->getLastName(),
-                'email' => $userEntity->getEmail(),
-                'phone' => $userEntity->getPhone(),
-                'creationDate' => $userEntity->getCreationDate()
-            ];}, $usersBean);
+        return array_map(function (object $userBean): array
+            {
+                $userEntity = (new UserEntity())->unserialize($userBean?->export());
+                // Retrieve the User entity fields we want to expose to the client
+                return [
+                    'userUuid' => $userEntity->getUserUuid(),
+                    'first' => $userEntity->getFirstName(),
+                    'last' => $userEntity->getLastName(),
+                    'email' => $userEntity->getEmail(),
+                    'phone' => $userEntity->getPhone(),
+                    'creationDate' => $userEntity->getCreationDate()
+                ];
+            }, $usersBean);
     }
 
     public static function remove(string $userUuid): bool
