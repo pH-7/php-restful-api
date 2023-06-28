@@ -14,9 +14,11 @@ class Item implements Entitable
 
     private bool $available;
 
-    public function setSequentialId(int $sequentialId): void
+    public function setSequentialId(int $sequentialId): self
     {
         $this->sequentialId = $sequentialId;
+
+        return $this;
     }
 
     public function getSequentialId(): int
@@ -24,9 +26,11 @@ class Item implements Entitable
         return $this->sequentialId;
     }
 
-    public function setItemUuid(string $itemUuid): void
+    public function setItemUuid(string $itemUuid): self
     {
         $this->itemUuid = $itemUuid;
+
+        return $this;
     }
 
     public function getItemUuid(): ?string
@@ -34,9 +38,11 @@ class Item implements Entitable
         return $this->itemUuid;
     }
 
-    public function setName(string $name): void
+    public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
     }
 
     public function getName(): string
@@ -44,9 +50,11 @@ class Item implements Entitable
         return $this->name;
     }
 
-    public function setPrice(float $price): void
+    public function setPrice(float $price): self
     {
         $this->price = $price;
+
+        return $this;
     }
 
     public function getPrice(): float
@@ -54,9 +62,11 @@ class Item implements Entitable
         return $this->price;
     }
 
-    public function setAvailable(bool $available): void
+    public function setAvailable(bool $available): self
     {
         $this->available = $available;
+
+        return $this;
     }
 
     public function getAvailable(): bool

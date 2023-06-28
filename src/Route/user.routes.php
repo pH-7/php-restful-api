@@ -3,6 +3,7 @@ namespace PH7\ApiSimpleMenu\Route;
 
 use PH7\ApiSimpleMenu\Route\Exception\NotFoundException;
 use PH7\ApiSimpleMenu\Service\Exception\EmailExistsException;
+use PH7\ApiSimpleMenu\Service\SecretKey;
 use PH7\ApiSimpleMenu\Service\User;
 use PH7\ApiSimpleMenu\Validation\Exception\InvalidValidationException;
 
@@ -29,7 +30,10 @@ enum UserAction: string
         // Ternary conditional operator operator
         $userId = $_REQUEST['id'] ?? ''; // using the null coalescing operator
 
-        $user = new User();
+        // retrieve JWT secret key, and pass it to User Service' constructor
+        $jwtToken = SecretKey::getJwtSecretKey();
+        $user = new User($jwtToken);
+
         try {
             // check first if HTTP method for the requested endpoint is valid
             $expectHttpMethod = match ($this) {

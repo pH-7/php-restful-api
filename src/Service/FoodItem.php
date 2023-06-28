@@ -38,10 +38,13 @@ class FoodItem
             // if no items have been added yet, create the first one
             $itemUuid = Uuid::uuid4()->toString();
             $itemEntity = new ItemEntity();
-            $itemEntity->setItemUuid($itemUuid);
-            $itemEntity->setName('Burrito Cheese with French Fries');
-            $itemEntity->setPrice(19.99);
-            $itemEntity->setAvailable(true);
+
+            // chaining each method with the arrow ->
+            $itemEntity
+                ->setItemUuid($itemUuid)
+                ->setName('Burrito Cheese with French Fries')
+                ->setPrice(19.99)
+                ->setAvailable(true);
 
             FoodItemDal::createDefaultItem($itemEntity);
 

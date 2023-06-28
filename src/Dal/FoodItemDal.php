@@ -5,7 +5,7 @@ namespace PH7\ApiSimpleMenu\Dal;
 use PH7\ApiSimpleMenu\Entity\Item as ItemEntity;
 use RedBeanPHP\R;
 
-class FoodItemDal
+final class FoodItemDal
 {
     public const TABLE_NAME = 'fooditems'; // Cannot have underscore. Use one word
 
@@ -45,8 +45,6 @@ class FoodItemDal
     public static function createDefaultItem(ItemEntity $itemEntity): int|string
     {
         $itemBan = R::dispense(self::TABLE_NAME);
-
-        // TODO Move this into Food Entity to build the item
 
         $itemBan->item_uuid = $itemEntity->getItemUuid();
         $itemBan->name = $itemEntity->getName();
