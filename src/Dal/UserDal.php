@@ -84,6 +84,19 @@ final class UserDal
         return (new UserEntity())->unserialize($userBean?->export());
     }
 
+    public static function setToken(string $jwtToken, string $userUuid): void
+    {
+        $bindings = ['userUuid' => $userUuid];
+        $userBean = R::findOne(self::TABLE_NAME, 'user_uuid = :userUuid', $bindings);
+
+        $userBean->session_token = $jwtToken;
+        $userBean->last_session_time = time();
+
+        R::store($userBean);
+
+        R::close();
+    }
+
     public static function getAll(): ?array
     {
         $usersBean =  R::findAll(self::TABLE_NAME);

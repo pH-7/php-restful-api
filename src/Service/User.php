@@ -17,7 +17,7 @@ class User
 {
     public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
 
-    public function __construct(protected string $jwtKey)
+    public function __construct(protected string $jwtSecretKey)
     {
     }
 
@@ -28,7 +28,8 @@ class User
             if (UserDal::doesEmailExist($data->email)) {
                 $user = UserDal::getByEmail($data->email);
 
-                if ($user->getEmail() && password_verify($data->password, $user->getPassword())) {
+                $areCredentialsValid = $user->getEmail() && password_verify($data->password, $user->getPassword());
+                if ($areCredentialsValid) {
                     $userName = "{$user->getFirstName()} {$user->getLastName()}";
 
                     $currentTime = time();
@@ -42,9 +43,11 @@ class User
                                 'name' => $userName
                             ]
                         ],
-                        $this->jwtKey,
+                        $this->jwtSecretKey,
                         $_ENV['JWT_ALGO_ENCRYPTION']
                     );
+
+                    UserDal::setToken($jwtToken, $user->getUserUuid());
 
                     return [
                         'message' => sprintf('%s successfully logged in', $userName),
