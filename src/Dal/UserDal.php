@@ -10,7 +10,7 @@ final class UserDal
 {
     public const TABLE_NAME = 'users';
 
-    public static function create(UserEntity $userEntity): int|string|false
+    public static function create(UserEntity $userEntity): string|false
     {
         $userBean = R::dispense(self::TABLE_NAME);
         $userBean->user_uuid = $userEntity->getUserUuid();
@@ -29,7 +29,10 @@ final class UserDal
             R::close();
         }
 
-        return $redBeanIncrementId;
+        $userBean = R::load(self::TABLE_NAME, $redBeanIncrementId);
+
+        // Return user UUID (UUID is a string datatype)
+        return $userBean->user_uuid;
     }
 
     public static function update(string $userUuid, UserEntity $userEntity): int|string|false
@@ -64,6 +67,7 @@ final class UserDal
             }
         }
 
+        // Return false when the requested user isn't found
         return false;
     }
 

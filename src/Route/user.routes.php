@@ -35,11 +35,11 @@ enum UserAction: string
         $user = new User($jwtToken);
 
         try {
-            // check first if HTTP method for the requested endpoint is valid
+            // first, let's check if HTTP method for the requested endpoint is valid
             $expectHttpMethod = match ($this) {
                 self::LOGIN => Http::POST_METHOD,
                 self::CREATE => Http::POST_METHOD,
-                self::UPDATE => Http::POST_METHOD,
+                self::UPDATE => Http::PUT_METHOD,
                 self::RETRIEVE_ALL => Http::GET_METHOD,
                 self::RETRIEVE => Http::GET_METHOD,
                 self::REMOVE => Http::DELETE_METHOD

@@ -83,9 +83,9 @@ class User
                 );
             }
 
-            if (UserDal::create($userEntity) === false) {
-                // Set an internal error 500 when we cannot add an entry to the database
-                HttpResponse::setHeadersByCode(StatusCode::INTERNAL_SERVER_ERROR);
+            if (!$userUuid = UserDal::create($userEntity)) {
+                // If we receive an error while creating a user to the database, give a 400 to client
+                HttpResponse::setHeadersByCode(StatusCode::BAD_REQUEST);
 
                 // Set to empty result, because an issue happened. The client has to handle this properly
                 $data = [];
@@ -94,7 +94,10 @@ class User
             // Send a 201 when the user has been successfully added to DB
             HttpResponse::setHeadersByCode(StatusCode::CREATED);
 
-            return $data; // return statement exists the function and doesn't go beyond this scope
+            // Add user UUID to the object to give back the user's UUID to the client
+            $data->userUuid = $userUuid;
+
+            return $data;
         }
 
         throw new InvalidValidationException("Invalid user payload");
@@ -120,8 +123,8 @@ class User
             }
 
             if (UserDal::update($userUuid, $userEntity) === false) {
-                // Set an internal error 500 when we cannot add an entry to the database
-                HttpResponse::setHeadersByCode(StatusCode::INTERNAL_SERVER_ERROR);
+                // Most likely, the user isn't found, set a 404 to the client
+                HttpResponse::setHeadersByCode(StatusCode::NOT_FOUND);
 
                 // If invalid or got an error, give back an empty response
                 return [];
