@@ -29,6 +29,7 @@ final class UserDal
             R::close();
         }
 
+        // Retrieve the user we just created for accessing to `user_uuid` column
         $userBean = R::load(self::TABLE_NAME, $redBeanIncrementId);
 
         // Return user UUID (UUID is a string datatype)
