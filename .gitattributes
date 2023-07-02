@@ -1,0 +1,5 @@
+# Exclude unneeded files/folders for the distribution archive
+.gitignore       export-ignore
+.gitattributes   export-ignore
+/tests/          export-ignore
+phpunit.xml.dist export-ignore

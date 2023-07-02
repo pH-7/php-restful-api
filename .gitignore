@@ -5,6 +5,10 @@
 /vendor
 composer.lock
 
+# Tests
+phpunit.xml
+.phpunit.cache
+
 # IDE config folder
 /.idea
 
