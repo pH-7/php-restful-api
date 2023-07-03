@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Entity;
+namespace PH7\ApiSimpleMenu\Tests\Entity;
 
 use PH7\ApiSimpleMenu\Entity\Item as ItemEntity;
 use PHPUnit\Framework\TestCase;
