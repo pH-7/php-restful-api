@@ -1,6 +1,8 @@
-# Build aPHP RESTful API 
+# Build a PHP RESTful API
 
 This is the source code of my Udemy course **Build a Modern REST API with PHP 8**
+
+![Diagram showing example of REST API architecture](example-web-app-REST-API-architecture.svg)
 
 
 ## The course
