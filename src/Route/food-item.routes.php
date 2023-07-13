@@ -2,10 +2,6 @@
 namespace PH7\ApiSimpleMenu\Route;
 
 use PH7\ApiSimpleMenu\Service\FoodItem;
-use PH7\ApiSimpleMenu\Validation\Exception\InvalidValidationException;
-
-use PH7\JustHttp\StatusCode;
-use PH7\PhpHttpResponseHeader\Http;
 
 enum FoodItemAction: string
 {
@@ -21,22 +17,10 @@ enum FoodItemAction: string
         $itemId = $_REQUEST['id'] ?? ''; // using the null coalescing operator
 
         $item = new FoodItem();
-        try {
-            $response = match ($this) {
-                self::RETRIEVE_ALL => $item->retrieveAll(),
-                self::RETRIEVE => $item->retrieve($itemId),
-            };
-        } catch (InvalidValidationException $e) {
-            // Send 400 http status code
-            Http::setHeadersByCode(StatusCode::BAD_REQUEST);
-
-            $response = [
-                'errors' => [
-                    'message' => $e->getMessage(),
-                    'code' => $e->getCode()
-                ]
-            ];
-        }
+        $response = match ($this) {
+            self::RETRIEVE_ALL => $item->retrieveAll(),
+            self::RETRIEVE => $item->retrieve($itemId),
+        };
 
         return json_encode($response);
     }

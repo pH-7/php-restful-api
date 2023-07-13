@@ -89,6 +89,9 @@ final class UserDal
         return (new UserEntity())->unserialize($userBean?->export());
     }
 
+    /**
+     * @throws \RedBeanPHP\RedException\SQL
+     */
     public static function setToken(string $jwtToken, string $userUuid): void
     {
         $bindings = ['userUuid' => $userUuid];

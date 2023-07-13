@@ -8,7 +8,7 @@ final class TokenKeyDal
 {
     public const TABLE_NAME = 'secretkeys';
 
-    public static function saveSecretKey(string $jwtKey)
+    public static function saveSecretKey(string $jwtKey): void
     {
         $tokenBean = R::dispense(self::TABLE_NAME);
         $tokenBean->secretKey = $jwtKey;
