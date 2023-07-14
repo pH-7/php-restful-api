@@ -11,7 +11,7 @@ enum FoodItemAction: string
     public function getResponse(): string
     {
         $postBody = file_get_contents('php://input');
-        $postBody = json_decode($postBody);
+        $postBody = json_decode($postBody); // unused for now
 
         // Ternary conditional operator operator
         $itemId = $_REQUEST['id'] ?? ''; // using the null coalescing operator
