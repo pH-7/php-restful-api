@@ -58,9 +58,9 @@ final class UserDal
                 $userBean->phone = $phone;
             }
 
-            // save the user
+            // attempt to save the user
             try {
-                return R::store($userBean);
+                return R::store($userBean); // returns the user ID
             } catch (SQL $e) {
                 return false;
             } finally {
