@@ -1,9 +1,16 @@
 <?php
-// miscellaneous file (MISC)
+/**
+ * Miscellaneous file (MISC)
+ *
+ * @author     Pierre-Henry Soria <hi@ph7.me>
+ * @license    MIT License
+ */
+
+declare(strict_types=1);
 
 const PASSWORD_COST_FACTOR = 12;
 
-function response($data): void {
+function response(mixed $data): void {
     echo json_encode($data);
 }
 
