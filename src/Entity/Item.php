@@ -84,7 +84,8 @@ class Item implements Entitable
     public function unserialize(?array $data): self
     {
         if (!empty($data['id'])) {
-            $this->setSequentialId($data['id']);
+            $sequentialId = (int)$data['id'];
+            $this->setSequentialId($sequentialId);
         }
 
         if (!empty($data['item_uuid'])) {
@@ -96,11 +97,13 @@ class Item implements Entitable
         }
 
         if (!empty($data['price'])) {
-            $this->setPrice($data['price']);
+            $price = (float)$data['price'];
+            $this->setPrice($price);
         }
 
         if (!empty($data['available'])) {
-            $this->setAvailable($data['available']);
+            $isAvailable = (bool)$data['available'];
+            $this->setAvailable($isAvailable);
         }
 
         return $this;

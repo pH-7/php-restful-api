@@ -125,7 +125,8 @@ class User implements Entitable
     public function unserialize(?array $data): self
     {
         if (!empty($data['id'])) {
-            $this->setSequentialId($data['id']);
+            $sequentialId = (int)$data['id'];
+            $this->setSequentialId($sequentialId);
         }
 
         if (!empty($data['user_uuid'])) {
