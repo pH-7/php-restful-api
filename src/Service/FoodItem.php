@@ -42,18 +42,7 @@ class FoodItem
         $items = FoodItemDal::getAll();
 
         if (count($items) === 0) {
-            // if no items have been added yet, create the first one
-            $itemUuid = Uuid::uuid4()->toString();
-            $itemEntity = new ItemEntity();
-
-            // chaining each method with the arrow ->
-            $itemEntity
-                ->setItemUuid($itemUuid)
-                ->setName('Burrito Cheese with French Fries')
-                ->setPrice(19.99)
-                ->setAvailable(true);
-
-            FoodItemDal::createDefaultItem($itemEntity);
+            $this->createDefaultItem();
 
             // then, get again all items
             // to retrieve the new one that just got added
@@ -61,5 +50,26 @@ class FoodItem
         }
 
         return $items;
+    }
+
+    private function createDefaultItem(): void
+    {
+        // default item values
+        $defaultPrice = 19.99;
+        $isEnabled = true;
+
+
+        // if no items have been added yet, create the first one
+        $itemUuid = Uuid::uuid4()->toString();
+        $itemEntity = new ItemEntity();
+
+        // chaining each method with the arrow ->
+        $itemEntity
+            ->setItemUuid($itemUuid)
+            ->setName('Burrito Cheese with French Fries')
+            ->setPrice($defaultPrice)
+            ->setAvailable($isEnabled);
+
+        FoodItemDal::insertDefaultItem($itemEntity);
     }
 }

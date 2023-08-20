@@ -49,7 +49,7 @@ final class FoodItemDal
             }, $itemsBean);
     }
 
-    public static function createDefaultItem(ItemEntity $itemEntity): int|string
+    public static function insertDefaultItem(ItemEntity $itemEntity): int|string
     {
         $itemBan = R::dispense(self::TABLE_NAME);
 
