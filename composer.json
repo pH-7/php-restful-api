@@ -1,6 +1,7 @@
 {
     "name": "pierrehenry/api-simple-menu",
     "description": "A simple RESTful API for a Udemy course",
+    "homepage": "https://www.udemy.com/course/build-modern-php-api/",
     "autoload": {
         "psr-4": {
             "PH7\\ApiSimpleMenu\\": "src/"
