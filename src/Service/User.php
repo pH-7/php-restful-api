@@ -59,7 +59,7 @@ class User
 
                     try {
                         UserDal::setToken($jwtToken, $user->getUserUuid());
-                    } catch (Exception $e) {
+                    } catch (Exception) { // since PHP 8.0, we can omit the caught variable name (e.g. Exception $e)
                         throw new CannotLoginUserException('Cannot set token to user');
                     }
 

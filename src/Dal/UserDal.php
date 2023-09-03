@@ -30,7 +30,7 @@ final class UserDal
 
         try {
             $redBeanIncrementId = R::store($userBean);
-        } catch (SQL $e) {
+        } catch (SQL) { // since PHP 8, we can omit the caught variable (e.g. SQL $e)
             return false;
         } finally {
             R::close();
@@ -68,7 +68,7 @@ final class UserDal
             // attempt to save the user
             try {
                 return R::store($userBean); // returns the user ID
-            } catch (SQL $e) {
+            } catch (SQL) { // PHP >=8.0 allows to omit the caught variable (e.g. SQL $e)
                 return false;
             } finally {
                 R::close();
