@@ -10,10 +10,3 @@ require __DIR__ . '/vendor/autoload.php';
 $whoops = new WhoopsRun();
 $whoops->pushHandler(new WhoopsJsonResponseHandler);
 $whoops->register();
-
-
-require __DIR__ . '/src/helpers/headers.inc.php';
-require __DIR__ . '/src/helpers/misc.inc.php';
-require __DIR__ . '/src/config/config.inc.php';
-require __DIR__ . '/src/config/database.inc.php'; // TODO Could find sth cleaner
-require __DIR__ . '/src/Route/routes.php';

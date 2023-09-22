@@ -5,7 +5,14 @@
     "autoload": {
         "psr-4": {
             "PH7\\ApiSimpleMenu\\": "src/"
-        }
+        },
+        "files": [
+            "src/helpers/headers.inc.php",
+            "src/helpers/misc.inc.php",
+            "src/config/config.inc.php",
+            "src/config/database.inc.php",
+            "src/Route/routes.php"
+        ]
     },
     "authors": [
         {
