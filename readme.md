@@ -10,9 +10,14 @@ This is the source code of my Udemy course **[Build a Modern REST API with PHP 8
 It is indispensable to [enroll the Udemy course](https://www.udemy.com/course/build-modern-php-api/) in order to understand and setup properly this project.
 
 
+## Requirements
+
+* [PHP v8.2](https://www.php.net/releases/8.2/en.php) or newer.
+
+
 ## Quick Setup
 
-* Composer & `composer install`
+* Ensure [Composer](https://getcomposer.org) is setup on your machine. Then, run `composer install`
 * Run the in-built PHP server `php -S localhost:8080`
 
 
