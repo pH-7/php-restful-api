@@ -1,4 +1,10 @@
 <?php
+/**
+ * @author     Pierre-Henry Soria
+ * @website    https://www.udemy.com/course/build-modern-php-api/
+ * @website    https://ph7.me
+ * @license    MIT License
+ */
 
 namespace PH7\ApiSimpleMenu\Validation;
 
@@ -6,7 +12,14 @@ use Respect\Validation\Validator as v;
 
 class UserValidation
 {
-    // storing the min/max lengths for first/last names
+    /**
+     * Storing min/max lengths for first/last names.
+     *
+     * @internal Since PHP 8.3, typed constant declarations are supported.
+     *    If using PHP 8.3+, can be changed to: 
+     *        private const int MINIMUM_NAME_LENGTH = 2;
+     *        private const int MAXIMUM_NAME_LENGTH = 40;
+     */
     private const MINIMUM_NAME_LENGTH = 2;
     private const MAXIMUM_NAME_LENGTH = 40;
 
