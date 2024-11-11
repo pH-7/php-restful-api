@@ -24,7 +24,9 @@ It is indispensable to follow [Build from Scratch a Modern REST API](https://www
 
 ## Author
 
-**[Pierre-Henry Soria](https://ph7.me)**. A super passionate and enthusiastic software engineer! 😊 Also, a true cheese 🧀, dark chocolate, and espresso lover! ☕️
+[![Pierre-Henry Soria](https://avatars0.githubusercontent.com/u/1325411?s=200)](https://pierrehenry.be "Pierre-Henry Soria, Software AI Engineer")
+
+**[Pierre-Henry Soria](https://ph7.me)**. A truly super passionate and enthusiastic software engineer! 😊 Also, a **true cheese** 🧀, **dark chocolate**, and **espresso lover**! ☕️
 
 
 ## License
