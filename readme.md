@@ -7,12 +7,13 @@ This is the source code of my Udemy course **[Build a Modern REST API with PHP 8
 
 ## The course
 
-It is indispensable to [enroll the Udemy course](https://www.udemy.com/course/build-modern-php-api/) in order to understand and setup properly this project.
+It is indispensable to follow [Build from Scratch a Modern REST API](https://www.udemy.com/course/build-modern-php-api/) in order to understand and setup properly this project.
 
 
 ## Requirements
 
-* [PHP v8.2](https://www.php.net/releases/8.2/en.php) or newer.
+1. Enroll [Build from Scratch a Modern REST API with PHP 8](https://www.udemy.com/course/build-modern-php-api/) course.
+2. [PHP v8.2](https://www.php.net/releases/8.2/en.php) or newer.
 
 
 ## Quick Setup
